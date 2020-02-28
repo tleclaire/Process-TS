@@ -1,0 +1,1 @@
+tsc -w -p . startet den compiler im watch mode

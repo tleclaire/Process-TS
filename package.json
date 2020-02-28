@@ -26,6 +26,8 @@
     "typescript": "~3.7.0"
   },
   "dependencies": {
-    "guid-typescript": "^1.0.9"
+    "generic-collections": "^0.1.1",
+    "guid-typescript": "^1.0.9",
+    "linq-collections": "^1.0.254"
   }
 }

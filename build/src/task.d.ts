@@ -1,0 +1,32 @@
+import { Guid } from 'guid-typescript';
+import { TaskAction } from './TaskAction';
+import { Process } from "./process";
+export declare class Task {
+    private _id;
+    private _name;
+    private _action;
+    private _role;
+    private _processStatus;
+    private _formUrl;
+    get id(): Guid;
+    set id(id: Guid);
+    get name(): string;
+    set name(name: string);
+    get action(): TaskAction;
+    set action(action: TaskAction);
+    get role(): string;
+    set role(role: string);
+    get processStatus(): string;
+    set processStatus(processStatus: string);
+    get formUrl(): string;
+    set formUrl(formUrl: string);
+    private _actionProperties;
+    get actionProperties(): PropertyCollection;
+    set actionProperties(value: PropertyCollection);
+    get taskAktivityAssembly(): string;
+    get taskAktivity(): string;
+    private _parentProcess;
+    get parentProcess(): Process;
+    set parentProcess(v: Process);
+    constructor();
+}
