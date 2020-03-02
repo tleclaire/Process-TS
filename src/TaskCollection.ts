@@ -6,7 +6,7 @@ import { Guid } from 'guid-typescript';
 export class TaskCollection extends List<Task>
 {
 
-    public ItemAdded: ((task: Task) => void) | undefined;
+    public itemAdded: ((task: Task) => void) | undefined;
     
     public Get(key : Guid):Task{
        return this.where(a=>a.id.equals(key)).firstOrDefault() as Task;   
@@ -20,8 +20,9 @@ export class TaskCollection extends List<Task>
 
     public OnItemAdded(task:Task):void 
     {
-        if(this.ItemAdded != undefined)
-             this.ItemAdded(task);
+        if(this.itemAdded !== undefined) {
+             this.itemAdded(task);
+        }
     }
 
     

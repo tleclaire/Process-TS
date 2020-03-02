@@ -36,7 +36,7 @@ export class Process {
 
   public get dialogTasks():IEnumerable<Task>
   {
-    return this._tasks.where(t=>t.action==TaskAction.Dialog);
+    return this._tasks.where(t=>t.action === TaskAction.Dialog);
   }
   
   // public dialogTasks =  () :IEnumerable<Task> => this._tasks.where(t=>t.action==TaskAction.Dialog);
@@ -51,7 +51,7 @@ export class Process {
     this._currentTaskId = Guid.create();
     this._tasks = new TaskCollection();
 //    this.Tasks_ItemAdded.bind(this);
-    this._tasks.ItemAdded = this.Tasks_ItemAdded.bind(this);
+    this._tasks.itemAdded = this.Tasks_ItemAdded.bind(this);
 
   }
 }

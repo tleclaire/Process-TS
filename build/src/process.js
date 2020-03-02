@@ -9,7 +9,7 @@ var Process = /** @class */ (function () {
         this._currentTaskId = guid_typescript_1.Guid.create();
         this._tasks = new TaskCollection_1.TaskCollection();
         //    this.Tasks_ItemAdded.bind(this);
-        this._tasks.ItemAdded = this.Tasks_ItemAdded.bind(this);
+        this._tasks.itemAdded = this.Tasks_ItemAdded.bind(this);
     }
     Object.defineProperty(Process.prototype, "name", {
         get: function () {
@@ -43,7 +43,7 @@ var Process = /** @class */ (function () {
     });
     Object.defineProperty(Process.prototype, "dialogTasks", {
         get: function () {
-            return this._tasks.where(function (t) { return t.action == TaskAction_1.TaskAction.Dialog; });
+            return this._tasks.where(function (t) { return t.action === TaskAction_1.TaskAction.Dialog; });
         },
         enumerable: true,
         configurable: true
@@ -55,4 +55,4 @@ var Process = /** @class */ (function () {
     return Process;
 }());
 exports.Process = Process;
-//# sourceMappingURL=Process.js.map
+//# sourceMappingURL=process.js.map

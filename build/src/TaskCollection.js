@@ -27,8 +27,9 @@ var TaskCollection = /** @class */ (function (_super) {
         return _super.prototype.push.call(this, task);
     };
     TaskCollection.prototype.OnItemAdded = function (task) {
-        if (this.ItemAdded != undefined)
-            this.ItemAdded(task);
+        if (this.itemAdded !== undefined) {
+            this.itemAdded(task);
+        }
     };
     return TaskCollection;
 }(linq_collections_1.List));

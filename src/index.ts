@@ -14,13 +14,13 @@ const trailing = 'Semicolon';
 const why = 'am I tabbed?';
 
 export function doSomeStuff() {
-  let process :Process = new Process();
+  const process :Process = new Process();
   process.name="Prozess 1";
 
-  let task : Task = new Task();
+  const task : Task = new Task();
   task.action=TaskAction.Dialog;
-  let i = process.tasks.push(task);
-  let tasks : IEnumerable<Task> = process.dialogTasks;
+  const i = process.tasks.push(task);
+  const tasks : IEnumerable<Task> = process.dialogTasks;
   console.log(tasks.elementAt(0).id);
   tasks.forEach(element => {
     console.log(element.id);
