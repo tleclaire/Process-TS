@@ -1,25 +1,31 @@
 import { Guid } from 'guid-typescript';
 import { TaskAction } from './TaskAction';
-import { Process } from "./process";
+import { Process } from './process';
+import { TaskResult } from './TaskResult';
+import { List } from 'linq-collections';
+import { CompletedTask } from './CompletedTask';
 export declare class Task {
     private _id;
-    private _name;
-    private _action;
-    private _role;
-    private _processStatus;
-    private _formUrl;
     get id(): Guid;
     set id(id: Guid);
+    private _name;
     get name(): string;
     set name(name: string);
+    private _action;
     get action(): TaskAction;
     set action(action: TaskAction);
+    private _role;
     get role(): string;
     set role(role: string);
+    private _processStatus;
     get processStatus(): string;
     set processStatus(processStatus: string);
+    private _formUrl;
     get formUrl(): string;
     set formUrl(formUrl: string);
+    private _results;
+    get results(): List<TaskResult>;
+    set results(v: List<TaskResult>);
     private _actionProperties;
     get actionProperties(): PropertyCollection;
     set actionProperties(value: PropertyCollection);
@@ -28,5 +34,9 @@ export declare class Task {
     private _parentProcess;
     get parentProcess(): Process;
     set parentProcess(v: Process);
+    get fontStyle(): string;
+    get enabled(): boolean;
+    getNextTask(value: number): Guid;
+    get asCompletedTask(): CompletedTask;
     constructor();
 }

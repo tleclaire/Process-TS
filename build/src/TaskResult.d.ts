@@ -1,0 +1,35 @@
+import { Guid } from 'guid-typescript';
+import { Process } from './process';
+import { Task } from './task';
+export declare class TaskResult {
+    private _comment;
+    get comment(): string;
+    set comment(v: string);
+    private _formatString;
+    get formatString(): string;
+    set formatString(v: string);
+    private _isEqual;
+    get isEqual(): number;
+    set isEqual(v: number);
+    private _lessThan;
+    get lessThan(): number;
+    set lessThan(v: number);
+    private _greaterThan;
+    get greaterThan(): number;
+    set greaterThan(v: number);
+    private _inBetween;
+    get inBetween(): string;
+    private _rangeLow;
+    private _rangeHigh;
+    set inBetween(v: string);
+    private _nextTaskId;
+    get nextTaskId(): Guid;
+    set nextTaskId(v: Guid);
+    evaluate(value: number): boolean;
+    get nextTask(): Task | undefined;
+    formatResult(result: number): string;
+    private _parentProcess;
+    get parentProcess(): Process | undefined;
+    set parentProcess(v: Process | undefined);
+    constructor();
+}

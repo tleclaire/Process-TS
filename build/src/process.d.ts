@@ -2,6 +2,8 @@ import { Guid } from "guid-typescript";
 import { TaskCollection } from './TaskCollection';
 import { Task } from './task';
 import { IEnumerable } from 'linq-collections';
+import { CompletedTask } from "./CompletedTask";
+import { CompletedTaskCollection } from "./CompletedTaskCollection";
 export declare class Process {
     private _name;
     get name(): string;
@@ -9,10 +11,24 @@ export declare class Process {
     private _currentTaskId;
     get currentTaskId(): Guid;
     set currentTaskId(v: Guid);
+    private _timeStamp;
+    get timeStamp(): Date | undefined;
+    set timeStamp(v: Date | undefined);
     private _tasks;
     get tasks(): TaskCollection;
     set tasks(v: TaskCollection);
+    private _completedTasks;
+    get completedTasks(): CompletedTaskCollection;
+    set completedTasks(v: CompletedTaskCollection);
+    get currentTask(): Task;
+    private _fileName;
+    get fileName(): string | undefined;
+    set fileName(v: string | undefined);
     get dialogTasks(): IEnumerable<Task>;
     private Tasks_ItemAdded;
+    completeCurrentTask(result: number, taskId: number, taskFileName: string, comment: string, accountId: string, accountName: string, bewertungsColor: string, email: string): void;
+    rollbackLastCompletedTask(): void;
+    getCompletdTaskByBewertungsId(bewertungsId: number): CompletedTask;
+    getCompletdTaskByTaskFileName(taskFileName: string): CompletedTask;
     constructor();
 }
