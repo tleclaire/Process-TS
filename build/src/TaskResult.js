@@ -4,36 +4,16 @@ var guid_typescript_1 = require("guid-typescript");
 var StringTools_1 = require("./StringTools");
 var TaskResult = /** @class */ (function () {
     function TaskResult() {
-        this._comment = '';
-        this._formatString = '';
+        this.comment = '';
+        this.formatString = '';
         this._isEqual = -1;
         this._lessThan = -1;
         this._greaterThan = -1;
         this._inBetween = '';
         this._rangeLow = -1;
         this._rangeHigh = -1;
-        this._nextTaskId = guid_typescript_1.Guid.createEmpty();
+        this.nextTaskId = guid_typescript_1.Guid.createEmpty();
     }
-    Object.defineProperty(TaskResult.prototype, "comment", {
-        get: function () {
-            return this._comment;
-        },
-        set: function (v) {
-            this._comment = v;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(TaskResult.prototype, "formatString", {
-        get: function () {
-            return this._formatString;
-        },
-        set: function (v) {
-            this._formatString = v;
-        },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(TaskResult.prototype, "isEqual", {
         get: function () {
             if (this._isEqual) {
@@ -91,16 +71,6 @@ var TaskResult = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(TaskResult.prototype, "nextTaskId", {
-        get: function () {
-            return this._nextTaskId;
-        },
-        set: function (v) {
-            this._nextTaskId = v;
-        },
-        enumerable: true,
-        configurable: true
-    });
     TaskResult.prototype.evaluate = function (value) {
         if (this._inBetween) {
             return value >= this._rangeLow && value <= this._rangeHigh;
@@ -118,8 +88,8 @@ var TaskResult = /** @class */ (function () {
     };
     Object.defineProperty(TaskResult.prototype, "nextTask", {
         get: function () {
-            if (this._parentProcess) {
-                return this._parentProcess.tasks.Get(this._nextTaskId);
+            if (this.parentProcess) {
+                return this.parentProcess.tasks.Get(this.nextTaskId);
             }
             return undefined;
         },
@@ -127,21 +97,11 @@ var TaskResult = /** @class */ (function () {
         configurable: true
     });
     TaskResult.prototype.formatResult = function (result) {
-        if (this._formatString) {
-            this._formatString = "{0}";
+        if (this.formatString) {
+            this.formatString = "{0}";
         }
-        return StringTools_1.StringTools.format(this._formatString);
+        return StringTools_1.StringTools.format(this.formatString);
     };
-    Object.defineProperty(TaskResult.prototype, "parentProcess", {
-        get: function () {
-            return this._parentProcess;
-        },
-        set: function (v) {
-            this._parentProcess = v;
-        },
-        enumerable: true,
-        configurable: true
-    });
     return TaskResult;
 }());
 exports.TaskResult = TaskResult;

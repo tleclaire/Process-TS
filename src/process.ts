@@ -10,71 +10,29 @@ import { CompletedTaskCollection } from "./CompletedTaskCollection";
 
 export class Process {
 
-  
-  private _name : string;
-  public get name() : string {
-    return this._name;
-  }
-  public set name(v : string) {
-    this._name = v;
-  }
+  public name : string;
 
+  public currentTaskId : Guid; 
   
-  private _currentTaskId : Guid;
-  public get currentTaskId() : Guid {
-    return this._currentTaskId;
-  }
-  public set currentTaskId(v : Guid) {
-    this._currentTaskId = v;
-  }
+  public timeStamp : Date | undefined;
   
-  
-  private _timeStamp : Date | undefined;
-  public get timeStamp() : Date | undefined{
-    return this._timeStamp;
-  }
-  public set timeStamp(v : Date | undefined) {
-    this._timeStamp = v;
-  }
-  
-  
-  private _tasks : TaskCollection;
-  public get tasks() : TaskCollection {
-    return this._tasks;
-  }
-  public set tasks(v : TaskCollection) {
-    this._tasks = v;
-  }
+  public tasks : TaskCollection; 
 
-  private _completedTasks : CompletedTaskCollection;
-  public get completedTasks() : CompletedTaskCollection {
-    return this._completedTasks;
-  }
-  public set completedTasks(v : CompletedTaskCollection) {
-    this.completedTasks = v;
-  }
+  public completedTasks : CompletedTaskCollection; 
 
   public get currentTask():Task
   {
-    return this._tasks.Get(this._currentTaskId);
+    return this.tasks.Get(this.currentTaskId);
   }
   
-   
-  private _fileName : string | undefined;
-  public get fileName() : string | undefined {
-    return this._fileName;
-   }
-  public set fileName(v : string | undefined)  {
-    this._fileName = v;
-  }
   
-
+  public fileName : string | undefined;
+  
   public get dialogTasks():IEnumerable<Task>
   {
-    return this._tasks.where(t=>t.action === TaskAction.Dialog);
+    return this.tasks.where(t=>t.action === TaskAction.Dialog);
   }
   
-  // public dialogTasks =  () :IEnumerable<Task> => this._tasks.where(t=>t.action==TaskAction.Dialog);
 
 
   private Tasks_ItemAdded(task:Task):void  {
@@ -83,16 +41,16 @@ export class Process {
 
   public completeCurrentTask(result:number,taskId : number, taskFileName : string, comment : string, accountId:string, accountName:string, bewertungsColor:string, email:string):void
   {
-    if (this._currentTaskId !== Guid.createEmpty())
+    if (this.currentTaskId !== Guid.createEmpty())
     {
         let nextTask : Guid = Guid.createEmpty();
 
         const formattedResult = "";
-        if (this._tasks.count() > 1)
+        if (this.tasks.count() > 1)
         {
-             nextTask = this._tasks.Get(this._currentTaskId).getNextTask(result);
+             nextTask = this.tasks.Get(this.currentTaskId).getNextTask(result);
         }
-        const completedTask : CompletedTask  = this._tasks.Get(this._currentTaskId).asCompletedTask;
+        const completedTask : CompletedTask  = this.tasks.Get(this.currentTaskId).asCompletedTask;
 
         const completedBy = new Person();
         completedBy.accountId = accountId;
@@ -107,39 +65,39 @@ export class Process {
         completedTask.taskFileName = taskFileName;
         completedTask.bewertungsColor = bewertungsColor;
         completedTask.completedDate = new Date();
-        this._completedTasks.push(completedTask);
-        this._currentTaskId=nextTask;
+        this.completedTasks.push(completedTask);
+        this.currentTaskId=nextTask;
     }
   }
 
   public rollbackLastCompletedTask() : void
   {
-    if(this._completedTasks.count() > 0)
+    if(this.completedTasks.count() > 0)
     {
-        while(this._completedTasks.last().taskFileId ===-1)
+        while(this.completedTasks.last().taskFileId ===-1)
         {
-            this._completedTasks.remove(this._completedTasks.last());
+            this.completedTasks.remove(this.completedTasks.last());
         }
-        this._currentTaskId = this._completedTasks.last().id;
-        this._completedTasks.remove(this._completedTasks.last());
+        this.currentTaskId = this.completedTasks.last().id;
+        this.completedTasks.remove(this.completedTasks.last());
     }
   }
 
   public getCompletdTaskByBewertungsId(bewertungsId : number):CompletedTask
   {
-      return this._completedTasks.firstOrDefault(c=>c.taskFileId === bewertungsId) as CompletedTask;
+      return this.completedTasks.firstOrDefault(c=>c.taskFileId === bewertungsId) as CompletedTask;
   }
   
   public getCompletdTaskByTaskFileName(taskFileName : string):CompletedTask
   {
-      return this._completedTasks.firstOrDefault(c=>c.taskFileName === taskFileName) as CompletedTask;
+      return this.completedTasks.firstOrDefault(c=>c.taskFileName === taskFileName) as CompletedTask;
   }
 
   constructor() {
-    this._name ="";
-    this._currentTaskId = Guid.create();
-    this._tasks = new TaskCollection()   
-    this._tasks.itemAdded = this.Tasks_ItemAdded.bind(this);
-    this._completedTasks = new CompletedTaskCollection();
+    this.name ="";
+    this.currentTaskId = Guid.create();
+    this.tasks = new TaskCollection()   
+    this.tasks.itemAdded = this.Tasks_ItemAdded.bind(this);
+    this.completedTasks = new CompletedTaskCollection();
   }
 }

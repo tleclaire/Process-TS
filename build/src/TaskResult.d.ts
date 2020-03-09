@@ -2,12 +2,8 @@ import { Guid } from 'guid-typescript';
 import { Process } from './process';
 import { Task } from './task';
 export declare class TaskResult {
-    private _comment;
-    get comment(): string;
-    set comment(v: string);
-    private _formatString;
-    get formatString(): string;
-    set formatString(v: string);
+    comment: string;
+    formatString: string;
     private _isEqual;
     get isEqual(): number;
     set isEqual(v: number);
@@ -22,14 +18,10 @@ export declare class TaskResult {
     private _rangeLow;
     private _rangeHigh;
     set inBetween(v: string);
-    private _nextTaskId;
-    get nextTaskId(): Guid;
-    set nextTaskId(v: Guid);
+    nextTaskId: Guid;
     evaluate(value: number): boolean;
     get nextTask(): Task | undefined;
     formatResult(result: number): string;
-    private _parentProcess;
-    get parentProcess(): Process | undefined;
-    set parentProcess(v: Process | undefined);
+    parentProcess: Process | undefined;
     constructor();
 }

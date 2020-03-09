@@ -1,25 +1,13 @@
 import { Guid } from 'guid-typescript';
 import { Process } from './process';
 import { Task } from './task';
-import { stringify } from 'querystring';
 import { StringTools } from './StringTools';
 
 export class TaskResult {
-  private _comment: string;
-  public get comment(): string {
-    return this._comment;
-  }
-  public set comment(v: string) {
-    this._comment = v;
-  }
 
-  private _formatString: string;
-  public get formatString(): string {
-    return this._formatString;
-  }
-  public set formatString(v: string) {
-    this._formatString = v;
-  }
+  public comment: string;
+
+  public formatString: string;
 
   private _isEqual: number;
   public get isEqual(): number {
@@ -77,13 +65,7 @@ export class TaskResult {
     }
   }
 
-  private _nextTaskId: Guid;
-  public get nextTaskId(): Guid {
-    return this._nextTaskId;
-  }
-  public set nextTaskId(v: Guid) {
-    this._nextTaskId = v;
-  }
+  public nextTaskId: Guid;
 
   public evaluate(value: number): boolean {
     if (this._inBetween) {
@@ -105,37 +87,32 @@ export class TaskResult {
   }
 
   public get nextTask(): Task | undefined {
-    if (this._parentProcess) {
-      return this._parentProcess.tasks.Get(this._nextTaskId);
+    if (this.parentProcess) {
+      return this.parentProcess.tasks.Get(this.nextTaskId);
     }
     return undefined;
   }
 
   public formatResult (result : number):string
   {
-      if(this._formatString)
+      if(this.formatString)
       {
-          this._formatString="{0}";
+          this.formatString="{0}";
       }
-      return StringTools.format(this._formatString);
+      return StringTools.format(this.formatString);
   }
-  private _parentProcess: Process | undefined;
-  public get parentProcess(): Process | undefined {
-    return this._parentProcess;
-  }
-  public set parentProcess(v: Process | undefined) {
-    this._parentProcess = v;
-  }
+  
+  public parentProcess: Process | undefined;
 
   constructor() {
-    this._comment = '';
-    this._formatString = '';
+    this.comment = '';
+    this.formatString = '';
     this._isEqual = -1;
     this._lessThan = -1;
     this._greaterThan = -1;
     this._inBetween = '';
     this._rangeLow = -1;
     this._rangeHigh = -1;
-    this._nextTaskId = Guid.createEmpty();
+    this.nextTaskId = Guid.createEmpty();
   }
 }
