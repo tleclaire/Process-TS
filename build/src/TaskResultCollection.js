@@ -12,46 +12,44 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var CompletedTask_1 = require("./CompletedTask");
+var TaskResult_1 = require("./TaskResult");
 var marshal_1 = require("@marcj/marshal");
-var CompletedTaskCollection = /** @class */ (function () {
-    function CompletedTaskCollection(tasks) {
+var TaskResultCollection = /** @class */ (function () {
+    function TaskResultCollection(tasks) {
         this.tasks = [];
         this.tasks = tasks;
     }
-    CompletedTaskCollection.prototype.Get = function (key) {
-        return this.tasks.find(function (a) { return a.id === key; });
-    };
-    CompletedTaskCollection.prototype.count = function () {
+    TaskResultCollection.prototype.count = function () {
         return this.tasks.length;
     };
-    CompletedTaskCollection.prototype.last = function () {
+    TaskResultCollection.prototype.last = function () {
         return this.tasks[this.tasks.length];
     };
-    CompletedTaskCollection.prototype.remove = function (task) {
+    TaskResultCollection.prototype.getNextTask = function (value) {
+        var result = this.tasks.find(function (r) { return r.evaluate(value); });
+        if (result) {
+            return result.nextTaskId;
+        }
+        return "";
+    };
+    TaskResultCollection.prototype.remove = function (task) {
         var index = this.tasks.indexOf(task, 0);
         if (index > -1) {
             this.tasks.splice(index, 1);
         }
     };
-    CompletedTaskCollection.prototype.push = function (task) {
+    TaskResultCollection.prototype.push = function (task) {
         return this.tasks.push(task);
     };
-    CompletedTaskCollection.prototype.getCompletdTaskByBewertungsId = function (bewertungsId) {
-        return this.tasks.find(function (c) { return c.taskFileId === bewertungsId; });
-    };
-    CompletedTaskCollection.prototype.getCompletdTaskByTaskFileName = function (taskFileName) {
-        return this.tasks.find(function (c) { return c.taskFileName === taskFileName; });
-    };
     __decorate([
-        (marshal_1.f.forwardArray(function () { return CompletedTask_1.CompletedTask; }).decorated()),
+        (marshal_1.f.forwardArray(function () { return TaskResult_1.TaskResult; }).decorated()),
         __metadata("design:type", Array)
-    ], CompletedTaskCollection.prototype, "tasks", void 0);
-    CompletedTaskCollection = __decorate([
-        __param(0, marshal_1.f.array(CompletedTask_1.CompletedTask).decorated()),
+    ], TaskResultCollection.prototype, "tasks", void 0);
+    TaskResultCollection = __decorate([
+        __param(0, marshal_1.f.array(TaskResult_1.TaskResult).decorated()),
         __metadata("design:paramtypes", [Array])
-    ], CompletedTaskCollection);
-    return CompletedTaskCollection;
+    ], TaskResultCollection);
+    return TaskResultCollection;
 }());
-exports.CompletedTaskCollection = CompletedTaskCollection;
-//# sourceMappingURL=CompletedTaskCollection.js.map
+exports.TaskResultCollection = TaskResultCollection;
+//# sourceMappingURL=TaskResultCollection.js.map

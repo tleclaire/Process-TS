@@ -1,15 +1,19 @@
-import { Guid } from 'guid-typescript';
 import { Process } from './process';
 import { Task } from './task';
 import { StringTools } from './StringTools';
+import { uuid, f } from '@marcj/marshal';
 
 export class TaskResult {
 
+  @f
   public comment: string;
 
+  @f
   public formatString: string;
 
   private _isEqual: number;
+
+  @f
   public get isEqual(): number {
     if (this._isEqual) {
       return this._isEqual;
@@ -24,6 +28,8 @@ export class TaskResult {
   //public bool ShouldSerializeIsEqual() { return _isEqual.HasValue; }
 
   private _lessThan: number;
+
+  @f
   public get lessThan(): number {
     if (this._lessThan) {
       return this._lessThan;
@@ -36,6 +42,8 @@ export class TaskResult {
   }
 
   private _greaterThan: number;
+  
+  @f
   public get greaterThan(): number {
     if (this._greaterThan) {
       return this._greaterThan;
@@ -47,6 +55,8 @@ export class TaskResult {
   }
 
   private _inBetween: string;
+
+  @f
   public get inBetween(): string {
     return this._inBetween;
   }
@@ -65,7 +75,8 @@ export class TaskResult {
     }
   }
 
-  public nextTaskId: Guid;
+  @f
+  public nextTaskId: string;
 
   public evaluate(value: number): boolean {
     if (this._inBetween) {
@@ -113,6 +124,6 @@ export class TaskResult {
     this._inBetween = '';
     this._rangeLow = -1;
     this._rangeHigh = -1;
-    this.nextTaskId = Guid.createEmpty();
+    this.nextTaskId = uuid();
   }
 }

@@ -1,7 +1,6 @@
-import { Guid } from 'guid-typescript';
 import { Person } from './Person';
 export declare class CompletedTask {
-    id: Guid;
+    id: string;
     name: string;
     role: string;
     result: number;
@@ -9,10 +8,10 @@ export declare class CompletedTask {
     taskFileId: number;
     taskFileName: string;
     comment: string;
-    completedBy: Person | undefined;
+    completedBy: Person;
     bewertungsColor: string;
     get foreColor(): string;
-    completedDate: Date | undefined;
+    completedDate: Date;
     deleteUrl: string;
     viewUrl: string;
     userHtml: string;

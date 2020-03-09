@@ -1,17 +1,27 @@
 "use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-var guid_typescript_1 = require("guid-typescript");
 var TaskCollection_1 = require("./TaskCollection");
-var TaskAction_1 = require("./TaskAction");
 var Person_1 = require("./Person");
 var CompletedTaskCollection_1 = require("./CompletedTaskCollection");
+var marshal_1 = require("@marcj/marshal");
 var Process = /** @class */ (function () {
     function Process() {
+        this.currentTaskId = marshal_1.uuid();
+        this.tasks = new TaskCollection_1.TaskCollection([]);
+        this.completedTasks = new CompletedTaskCollection_1.CompletedTaskCollection([]);
         this.name = "";
-        this.currentTaskId = guid_typescript_1.Guid.create();
-        this.tasks = new TaskCollection_1.TaskCollection();
+        this.fileName = "";
+        this.currentTaskId = marshal_1.uuid();
         this.tasks.itemAdded = this.Tasks_ItemAdded.bind(this);
-        this.completedTasks = new CompletedTaskCollection_1.CompletedTaskCollection();
     }
     Object.defineProperty(Process.prototype, "currentTask", {
         get: function () {
@@ -22,7 +32,7 @@ var Process = /** @class */ (function () {
     });
     Object.defineProperty(Process.prototype, "dialogTasks", {
         get: function () {
-            return this.tasks.where(function (t) { return t.action === TaskAction_1.TaskAction.Dialog; });
+            return this.tasks.dialogTasks;
         },
         enumerable: true,
         configurable: true
@@ -31,8 +41,8 @@ var Process = /** @class */ (function () {
         task.parentProcess = this;
     };
     Process.prototype.completeCurrentTask = function (result, taskId, taskFileName, comment, accountId, accountName, bewertungsColor, email) {
-        if (this.currentTaskId !== guid_typescript_1.Guid.createEmpty()) {
-            var nextTask = guid_typescript_1.Guid.createEmpty();
+        if (this.currentTaskId !== "") {
+            var nextTask = "";
             var formattedResult = "";
             if (this.tasks.count() > 1) {
                 nextTask = this.tasks.Get(this.currentTaskId).getNextTask(result);
@@ -65,11 +75,35 @@ var Process = /** @class */ (function () {
         }
     };
     Process.prototype.getCompletdTaskByBewertungsId = function (bewertungsId) {
-        return this.completedTasks.firstOrDefault(function (c) { return c.taskFileId === bewertungsId; });
+        return this.completedTasks.getCompletdTaskByBewertungsId(bewertungsId);
     };
     Process.prototype.getCompletdTaskByTaskFileName = function (taskFileName) {
-        return this.completedTasks.firstOrDefault(function (c) { return c.taskFileName === taskFileName; });
+        return this.completedTasks.getCompletdTaskByTaskFileName(taskFileName);
     };
+    __decorate([
+        marshal_1.f,
+        __metadata("design:type", String)
+    ], Process.prototype, "name", void 0);
+    __decorate([
+        marshal_1.f.uuid(),
+        __metadata("design:type", String)
+    ], Process.prototype, "currentTaskId", void 0);
+    __decorate([
+        marshal_1.f.type(Date),
+        __metadata("design:type", Object)
+    ], Process.prototype, "timeStamp", void 0);
+    __decorate([
+        marshal_1.f.type(TaskCollection_1.TaskCollection),
+        __metadata("design:type", TaskCollection_1.TaskCollection)
+    ], Process.prototype, "tasks", void 0);
+    __decorate([
+        marshal_1.f.type(CompletedTaskCollection_1.CompletedTaskCollection),
+        __metadata("design:type", CompletedTaskCollection_1.CompletedTaskCollection)
+    ], Process.prototype, "completedTasks", void 0);
+    __decorate([
+        marshal_1.f,
+        __metadata("design:type", String)
+    ], Process.prototype, "fileName", void 0);
     return Process;
 }());
 exports.Process = Process;

@@ -26,8 +26,10 @@
     "typescript": "~3.7.0"
   },
   "dependencies": {
+    "@marcj/marshal": "^2.1.3",
     "generic-collections": "^0.1.1",
     "guid-typescript": "^1.0.9",
-    "linq-collections": "^1.0.254"
+    "linq-collections": "^1.0.254",
+    "reflect-metadata": "^0.1.13"
   }
 }

@@ -1,4 +1,3 @@
-import { Guid } from 'guid-typescript';
 import { Process } from './process';
 import { Task } from './task';
 export declare class TaskResult {
@@ -18,7 +17,7 @@ export declare class TaskResult {
     private _rangeLow;
     private _rangeHigh;
     set inBetween(v: string);
-    nextTaskId: Guid;
+    nextTaskId: string;
     evaluate(value: number): boolean;
     get nextTask(): Task | undefined;
     formatResult(result: number): string;

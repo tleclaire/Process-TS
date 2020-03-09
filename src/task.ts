@@ -1,25 +1,33 @@
-import { Guid } from 'guid-typescript';
 import { TaskAction } from './TaskAction';
 import { Process } from './process';
-import { TaskResult } from './TaskResult';
-import { List } from 'linq-collections';
 import { StringTools } from './StringTools';
 import { CompletedTask } from './CompletedTask';
+import { f, plainToClass, uuid,} from '@marcj/marshal';
+import { TaskResultCollection } from './TaskResultCollection';
+
 
 export class Task {
-  public id: Guid; 
+  
+  @f.primary().uuid()
+  public id: string = uuid();
 
+  @f
   public name: string; 
 
+  @f.enum(TaskAction)
   public action: TaskAction;
 
+  @f
   public role: string; 
 
+  @f
   public processStatus: string;
 
+  @f
   public formUrl: string;
   
-  public results: List<TaskResult>;
+  @f.type(TaskResultCollection)
+  public results: TaskResultCollection = new TaskResultCollection([]);
 
   public actionProperties: PropertyCollection; 
 
@@ -48,13 +56,8 @@ export class Task {
   }
 
   //out string formattedResult fehlt noch
-  public getNextTask(value: number): Guid  {
-    const result : TaskResult | undefined = this.results.firstOrDefault(r=>r.evaluate(value));
-    if(result)
-    {
-        return result.nextTaskId;
-    }
-    return Guid.createEmpty();
+  public getNextTask(value: number): string  {
+     return this.results.getNextTask(value);
   }
 
   public get asCompletedTask():CompletedTask
@@ -67,7 +70,6 @@ export class Task {
   }
 
   constructor() {
-    this.id = Guid.create();
     this.name = '';
     this.role = '';
     this.action = TaskAction.None;
@@ -76,6 +78,5 @@ export class Task {
     this.actionProperties = {};
     this.actionProperties['TaskActivityAssembly'] = 'AssemblyName';
     this.parentProcess = new Process();
-    this.results = new List<TaskResult>();
   }
 }

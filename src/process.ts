@@ -1,36 +1,39 @@
 
-import { Guid } from "guid-typescript";
 import { TaskCollection } from './TaskCollection';
 import { Task } from './task';
-import {IEnumerable} from 'linq-collections';
-import { TaskAction } from "./TaskAction";
 import {CompletedTask} from "./CompletedTask";
 import { Person } from "./Person";
 import { CompletedTaskCollection } from "./CompletedTaskCollection";
+import { f, uuid } from "@marcj/marshal";
 
 export class Process {
 
+  @f
   public name : string;
 
-  public currentTaskId : Guid; 
+  @f.uuid()
+  public currentTaskId: string = uuid();
   
+  @f.type(Date)
   public timeStamp : Date | undefined;
   
-  public tasks : TaskCollection; 
+  @f.type(TaskCollection)
+  public tasks : TaskCollection = new TaskCollection([]); 
 
-  public completedTasks : CompletedTaskCollection; 
+  @f.type(CompletedTaskCollection)
+  public completedTasks : CompletedTaskCollection = new CompletedTaskCollection([]); 
 
   public get currentTask():Task
   {
     return this.tasks.Get(this.currentTaskId);
   }
   
+  @f
+  public fileName : string;
   
-  public fileName : string | undefined;
-  
-  public get dialogTasks():IEnumerable<Task>
+  public get dialogTasks():Task[]
   {
-    return this.tasks.where(t=>t.action === TaskAction.Dialog);
+    return this.tasks.dialogTasks;
   }
   
 
@@ -41,9 +44,9 @@ export class Process {
 
   public completeCurrentTask(result:number,taskId : number, taskFileName : string, comment : string, accountId:string, accountName:string, bewertungsColor:string, email:string):void
   {
-    if (this.currentTaskId !== Guid.createEmpty())
+    if (this.currentTaskId !== "")
     {
-        let nextTask : Guid = Guid.createEmpty();
+        let nextTask = "";
 
         const formattedResult = "";
         if (this.tasks.count() > 1)
@@ -85,19 +88,18 @@ export class Process {
 
   public getCompletdTaskByBewertungsId(bewertungsId : number):CompletedTask
   {
-      return this.completedTasks.firstOrDefault(c=>c.taskFileId === bewertungsId) as CompletedTask;
+      return this.completedTasks.getCompletdTaskByBewertungsId(bewertungsId) as CompletedTask;
   }
   
   public getCompletdTaskByTaskFileName(taskFileName : string):CompletedTask
   {
-      return this.completedTasks.firstOrDefault(c=>c.taskFileName === taskFileName) as CompletedTask;
+      return this.completedTasks.getCompletdTaskByTaskFileName(taskFileName) as CompletedTask;
   }
 
   constructor() {
     this.name ="";
-    this.currentTaskId = Guid.create();
-    this.tasks = new TaskCollection()   
+    this.fileName="";
+    this.currentTaskId = uuid();
     this.tasks.itemAdded = this.Tasks_ItemAdded.bind(this);
-    this.completedTasks = new CompletedTaskCollection();
   }
 }

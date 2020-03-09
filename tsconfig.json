@@ -4,6 +4,8 @@
     "target": "es5",
     "rootDir": ".",
     "forceConsistentCasingInFileNames": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "outDir": "build"
   },
   "include": [

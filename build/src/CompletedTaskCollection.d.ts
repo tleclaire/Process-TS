@@ -1,7 +1,12 @@
 import { CompletedTask } from './CompletedTask';
-import { List } from 'linq-collections';
-import { Guid } from 'guid-typescript';
-export declare class CompletedTaskCollection extends List<CompletedTask> {
-    Get(key: Guid): CompletedTask;
-    constructor();
+export declare class CompletedTaskCollection {
+    private readonly tasks;
+    Get(key: string): CompletedTask;
+    count(): number;
+    last(): CompletedTask;
+    remove(task: CompletedTask): void;
+    push(task: CompletedTask): number;
+    getCompletdTaskByBewertungsId(bewertungsId: number): CompletedTask;
+    getCompletdTaskByTaskFileName(taskFileName: string): CompletedTask;
+    constructor(tasks: CompletedTask[]);
 }
